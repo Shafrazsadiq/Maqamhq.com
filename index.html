@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet">
+<title>maqam — Markaz Al Maqam</title>
+<meta name="description" content="Markaz Al Maqam — Connecting markets. Creating opportunities.">
+<style>
+@font-face{font-family:Brandmark;src:url("FontFile3.bin") format("truetype");font-weight:400;font-style:normal;font-display:swap}
+:root{--serif:"Cormorant Garamond",Georgia,"Times New Roman",serif;--body:Georgia,"Times New Roman",serif;--gold:#c99a50;--gold2:#e1b86d;--cream:#f7eee4;--muted:#d8cbbb;--dark:#0b0705}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--dark);color:var(--cream);font-family:var(--body)}body{position:relative}button,a{font:inherit}
+
+/* ALWAYS-VISIBLE CINEMATIC NAVIGATION */
+.site-chrome{position:fixed;z-index:100;top:0;left:0;right:0;height:60px;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;padding:0 30px;background:linear-gradient(180deg,rgba(7,4,2,.86) 0%,rgba(7,4,2,.60) 68%,rgba(7,4,2,0) 100%);border-bottom:1px solid rgba(235,209,170,.14);transition:transform .38s ease,opacity .38s ease}
+.site-chrome.is-hidden{transform:translateY(-100%);opacity:0;pointer-events:none}
+.chrome-logo{width:150px;height:auto;filter:brightness(0) invert(1);opacity:.96}
+.main-nav{display:flex;justify-content:center;align-items:center;gap:clamp(9px,1.35vw,21px);min-width:0}
+.main-nav a{position:relative;color:#f5eee6;text-decoration:none;font-size:9px;letter-spacing:.045em;white-space:nowrap;padding:22px 0 18px;opacity:.9;transition:color .2s,opacity .2s}
+.main-nav a::after{content:"";position:absolute;left:0;right:0;bottom:11px;height:1px;background:var(--gold);transform:scaleX(0);transform-origin:center;transition:transform .25s ease}
+.main-nav a:hover,.main-nav a.active{color:var(--gold2);opacity:1}.main-nav a.active::after,.main-nav a:hover::after{transform:scaleX(1)}
+.chrome-actions{display:flex;justify-content:flex-end;align-items:center;gap:10px}.chrome-hide,.menu-button,.show-nav{border:1px solid rgba(236,211,172,.42);background:rgba(10,6,4,.38);color:#f3e8da;cursor:pointer;backdrop-filter:blur(7px);transition:.25s ease}
+.chrome-hide{height:42px;padding:0 12px;font-size:9px;letter-spacing:.15em;text-transform:uppercase}.chrome-hide:hover,.menu-button:hover,.show-nav:hover{background:rgba(10,6,4,.75);border-color:var(--gold);color:var(--gold2)}
+.menu-button{width:44px;height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px}.menu-button span{width:18px;height:1px;background:#f3e8da}.show-nav{position:fixed;z-index:110;right:25px;top:18px;height:44px;padding:0 15px;display:none;font-size:9px;letter-spacing:.16em;text-transform:uppercase}.nav-hidden .show-nav{display:block}
+
+/* CINEMATIC SCREENS */
+.view-stack{position:fixed;inset:0;overflow:hidden;background:var(--dark)}
+.view{position:absolute;inset:0;visibility:hidden;opacity:0;transform:scale(1.025);transition:opacity .42s ease,transform .65s cubic-bezier(.2,.7,.2,1),visibility 0s linear .65s;background:#0b0705}
+.view.active{visibility:visible;opacity:1;transform:scale(1);transition-delay:0s}
+
+/* HOME — designed to belong to the existing site */
+.home-view{position:absolute;inset:0;background-image:linear-gradient(90deg,rgba(7,4,2,.96) 0%,rgba(7,4,2,.86) 28%,rgba(7,4,2,.50) 49%,rgba(7,4,2,.08) 78%),linear-gradient(0deg,rgba(7,4,2,.62),transparent 38%),url('images/home-hero.jpg');background-size:cover;background-position:center}
+.home-view::after{content:"";position:absolute;inset:84px 0 0;background:linear-gradient(90deg,rgba(201,154,80,.12),transparent 24%);pointer-events:none}
+.home-panel{position:absolute;left:0;top:84px;bottom:0;width:min(53vw,820px);display:flex;align-items:center;padding:35px 6vw 80px;background:linear-gradient(90deg,rgba(7,4,2,.58),rgba(7,4,2,.18));border-right:1px solid rgba(226,196,150,.10)}
+.home-inner{max-width:640px;position:relative;z-index:2}.home-logo{width:225px;max-width:58%;filter:brightness(0) invert(1);margin-bottom:28px}.eyebrow{font-size:11px;letter-spacing:.27em;text-transform:uppercase;color:var(--gold2);margin-bottom:17px}.home-title{font-family:Brandmark,Georgia,serif;font-size:clamp(50px,6.1vw,88px);font-weight:400;line-height:.94;margin:0 0 23px;letter-spacing:-.015em}.home-title span{color:#e2bb73}.home-line{width:76px;height:2px;background:var(--gold);margin:0 0 24px}.home-copy{font-family:Georgia,"Times New Roman",serif;color:#eee3d5;font-size:17px;line-height:1.48;max-width:540px;margin:0 0 24px}.home-points{display:flex;gap:22px;flex-wrap:wrap;margin:0 0 25px}.home-point{font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:#d7c6b2}.home-point::before{content:"";display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--gold);margin:0 9px 1px 0}.home-cta{display:inline-flex;align-items:center;gap:14px;color:#f7eee4;text-decoration:none;border:1px solid rgba(201,154,80,.78);padding:12px 19px;text-transform:uppercase;letter-spacing:.15em;font-size:9px;transition:.25s}.home-cta:hover{background:rgba(201,154,80,.12);border-color:var(--gold2)}.home-meta{position:absolute;bottom:30px;left:6vw;color:rgba(247,238,228,.55);font-size:9px;letter-spacing:.22em;text-transform:uppercase}.home-scroll{position:absolute;right:43px;bottom:32px;z-index:3;color:rgba(247,238,228,.62);font-size:9px;letter-spacing:.25em;text-transform:uppercase;writing-mode:vertical-rl;display:flex;gap:11px;align-items:center}.home-scroll::after{content:"";height:48px;width:1px;background:linear-gradient(var(--gold),transparent)}
+
+/* Content artwork */
+.page-art{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
+
+/* CONTACT — keep Contact as a proper page, not something hidden at the bottom */
+.contact-view{position:absolute;inset:0;background:#120704 url('images/contact-background.jpg') center center/cover no-repeat;overflow:hidden}
+.contact-view::before{content:"";position:absolute;inset:0 auto 0 0;width:43%;background:linear-gradient(90deg,rgba(8,4,2,.82),rgba(8,4,2,.58));border-right:1px solid rgba(226,196,150,.12)}
+.contact-content{position:relative;z-index:2;width:min(560px,36vw);margin-left:6vw;padding-top:12%;color:#f7eee4}.contact-logo{display:block;width:185px;max-width:62%;margin:0 0 43px;filter:brightness(0) invert(1);opacity:.96}.contact-kicker{font-size:11px;font-weight:600;letter-spacing:.18em;color:var(--gold2);margin:0 0 15px;text-transform:uppercase}.contact-kicker::after{content:"";display:block;width:54px;height:2px;background:var(--gold);margin-top:13px}.contact h2{font-family:Brandmark,Georgia,serif;font-size:clamp(42px,4.3vw,62px);font-weight:400;line-height:1;margin:0 0 25px}.contact-rule{height:1px;width:100%;background:rgba(235,209,170,.55);margin:0 0 23px}.contact-company{font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--gold2);margin-bottom:16px;text-transform:uppercase}.contact-address{font-size:16px;line-height:1.55;color:#f2e8dc;margin-bottom:31px}.contact-actions{display:flex;align-items:center;gap:30px;flex-wrap:wrap}.contact-actions a{color:#f2e8dc;text-decoration:none;font-size:14px;border-bottom:1px solid rgba(201,154,80,.55);padding-bottom:4px}.contact-actions a:hover{color:var(--gold2);border-color:var(--gold2)}
+
+/* FULL-SCREEN MENU */
+.menu-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.60);opacity:0;visibility:hidden;transition:opacity .28s ease,visibility 0s linear .28s;z-index:190}.menu-drawer{position:fixed;z-index:200;right:0;top:0;bottom:0;width:min(500px,92vw);background:linear-gradient(180deg,rgba(22,12,7,.985),rgba(8,5,4,.995));border-left:1px solid rgba(201,154,80,.28);transform:translateX(102%);transition:transform .44s cubic-bezier(.22,.75,.2,1);padding:32px 46px 42px;display:flex;flex-direction:column;box-shadow:-20px 0 70px rgba(0,0,0,.34)}
+.menu-open .menu-backdrop{opacity:1;visibility:visible;transition-delay:0s}.menu-open .menu-drawer{transform:translateX(0)}.menu-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:54px}.menu-top img{width:170px;filter:brightness(0) invert(1)}.close-button{width:44px;height:44px;border:1px solid rgba(236,211,172,.42);background:transparent;color:#f3e8da;font-size:27px;line-height:1;cursor:pointer}.close-button:hover{border-color:var(--gold);color:var(--gold)}.menu-label{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:18px}.menu-list{display:flex;flex-direction:column}.menu-list a{position:relative;color:#f4ebe1;text-decoration:none;font-family:Brandmark,Georgia,serif;font-size:clamp(28px,3vw,39px);line-height:1.1;padding:14px 0;border-bottom:1px solid rgba(230,206,173,.13);transition:color .2s,padding-left .25s}.menu-list a::after{content:"";position:absolute;left:0;bottom:-1px;width:0;height:1px;background:var(--gold);transition:width .28s}.menu-list a:hover,.menu-list a.active{color:var(--gold);padding-left:8px}.menu-list a:hover::after,.menu-list a.active::after{width:54px}.menu-note{margin-top:auto;font-size:11px;line-height:1.6;color:rgba(244,235,225,.55)}
+
+@media(max-width:1100px){.site-chrome{grid-template-columns:minmax(0,1fr) auto;padding:0 18px}.main-nav{gap:10px}.main-nav a{font-size:8px}.chrome-hide{padding:0 8px;font-size:8px}.chrome-logo{width:132px}.home-panel{width:59vw}}
+@media(max-width:900px){.site-chrome{grid-template-columns:1fr auto;height:0;top:0;padding:0;background:transparent;border-bottom:0;align-items:start}.chrome-logo,.chrome-hide{display:none}.main-nav{display:flex;position:fixed;z-index:105;top:calc(58px + env(safe-area-inset-top));left:max(10px,env(safe-area-inset-left));right:max(62px,env(safe-area-inset-right));height:34px;gap:clamp(7px,2vw,11px);justify-content:flex-start;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;white-space:nowrap;padding:0 0 4px;opacity:1;transition:opacity .25s ease,transform .25s ease}.main-nav::-webkit-scrollbar{display:none}.main-nav a{font-size:8px;letter-spacing:.015em;padding:8px 0 9px;flex:0 0 auto;text-shadow:0 1px 5px rgba(0,0,0,.8)}.main-nav a::after{bottom:3px}.menu-button{position:fixed;z-index:120;top:calc(18px + env(safe-area-inset-top));right:max(14px,env(safe-area-inset-right));width:54px;height:54px;margin:0;background:rgba(10,6,4,.46)}.show-nav{right:max(16px,env(safe-area-inset-right));top:auto;bottom:max(18px,env(safe-area-inset-bottom));z-index:220}.site-chrome.is-hidden .main-nav{opacity:0;transform:translateY(-12px);pointer-events:none}.home-view{background-position:65% center}.home-panel{top:0;width:68vw;min-width:420px;padding:40px 6vw 65px}.home-logo{width:195px}.home-title{font-size:clamp(45px,7vw,70px)}.home-copy{font-size:17px}.contact-view{background-position:62% center}.contact-view::before{width:58%}.contact-content{width:47%;margin-left:6vw;padding-top:13%}.contact-logo{width:175px}.contact h2{font-size:clamp(38px,6vw,55px)}.home-scroll{right:22px}}
+@media(max-width:900px){.page-art{display:block;width:auto;max-width:none;height:100svh;min-height:100%;object-fit:contain;object-position:left center}}
+@media(max-width:600px){
+html,body{width:100%;height:100%;min-height:100svh;overflow:hidden} .view-stack{height:100svh;min-height:100svh} .view{height:100svh;min-height:100svh} .home-view,.contact-view{height:100svh;min-height:100svh} .home-view::after{inset:78px 0 0} .home-panel{top:78px;bottom:0;height:calc(100svh - 78px);min-height:0;padding:clamp(28px,7vh,58px) 8% max(38px,env(safe-area-inset-bottom));display:flex;align-items:flex-start;overflow:hidden} .home-inner{max-width:100%;width:100%} .home-logo{width:min(150px,46vw);margin-bottom:18px} .eyebrow{font-size:9px;letter-spacing:.22em;margin-bottom:12px} .home-title{font-size:clamp(34px,10.8vw,43px);line-height:.96;margin-bottom:17px} .home-line{width:55px;height:1px;margin-bottom:17px} .home-copy{font-size:14px;line-height:1.4;max-width:310px;margin-bottom:17px} .home-points{gap:8px 14px;margin-bottom:18px} .home-point{font-size:7px;letter-spacing:.1em} .home-point::before{width:4px;height:4px;margin-right:6px} .home-cta{padding:10px 15px;font-size:8px;gap:10px} .home-meta{left:8%;bottom:max(15px,env(safe-area-inset-bottom));font-size:7px} .contact-view{background-position:65% center} .contact-view::before{width:100%;background:linear-gradient(90deg,rgba(8,4,2,.88),rgba(8,4,2,.62))} .contact-content{width:84%;margin-left:8%;padding-top:calc(98px + env(safe-area-inset-top));max-height:calc(100svh - 98px);overflow:hidden} .contact-logo{width:min(145px,44vw);margin-bottom:25px} .contact-kicker{font-size:9px;margin-bottom:12px} .contact-kicker::after{width:45px;height:1px;margin-top:10px} .contact h2{font-size:36px;margin-bottom:18px} .contact-rule{margin-bottom:18px} .contact-company{font-size:11px;margin-bottom:12px} .contact-address{font-size:13px;line-height:1.45;margin-bottom:22px} .contact-actions{gap:10px} .contact-actions a{font-size:12px} .menu-drawer{width:100%;max-width:100%;height:100svh;bottom:auto;min-height:100svh;padding:max(22px,env(safe-area-inset-top)) max(22px,env(safe-area-inset-right)) max(24px,env(safe-area-inset-bottom)) max(22px,env(safe-area-inset-left));overflow-y:auto;-webkit-overflow-scrolling:touch} .menu-top{margin-bottom:28px}.menu-top img{width:135px}.menu-list a{font-size:clamp(23px,7.5vw,29px);padding:9px 0} .menu-note{font-size:10px;margin-top:24px;padding-bottom:5px} .page-art{width:auto;height:100svh;max-width:none;object-fit:contain;object-position:left center;display:block}
+}
+@media(max-width:600px) and (max-height:740px){.home-panel{padding-top:22px}.home-logo{width:125px;margin-bottom:14px}.eyebrow{margin-bottom:8px}.home-title{font-size:34px;margin-bottom:13px}.home-line{margin-bottom:12px}.home-copy{font-size:13px;line-height:1.32;margin-bottom:13px}.home-points{margin-bottom:13px}.home-cta{padding:9px 13px}.contact-content{padding-top:calc(82px + env(safe-area-inset-top))}.contact-logo{width:125px;margin-bottom:18px}.contact h2{font-size:32px;margin-bottom:14px}.contact-address{font-size:12px;margin-bottom:16px}}
+
+@media(max-width:900px){.home-panel .home-inner{padding-top:2px}.home-logo{display:block}.show-nav{box-shadow:0 8px 24px rgba(0,0,0,.35)}}
+
+@media(max-width:600px){.main-nav{top:calc(62px + env(safe-area-inset-top));right:70px;height:30px;gap:8px}.main-nav a{font-size:7px;padding:7px 0 8px}.menu-button{top:calc(18px + env(safe-area-inset-top));width:52px;height:52px}.show-nav{font-size:8px;height:40px;padding:0 13px;background:rgba(10,6,4,.76)}}
+
+/* V14 mobile: true full-screen cinematic composition + manual nav toggle */
+@media (max-width:900px){
+  .site-chrome{height:0 !important;display:block !important;pointer-events:none !important;}
+  .site-chrome .main-nav{pointer-events:auto !important;}
+  .site-chrome .chrome-hide{
+    display:block !important;pointer-events:auto !important;position:fixed;z-index:131;
+    top:calc(10px + env(safe-area-inset-top));right:76px;height:34px;padding:0 10px;
+    font-size:7px;letter-spacing:.12em;background:rgba(10,6,4,.68);
+  }
+  .main-nav{
+    position:fixed !important;z-index:125 !important;
+    top:calc(68px + env(safe-area-inset-top)) !important;
+    left:10px !important;right:70px !important;height:30px !important;
+    gap:9px !important;padding:0 0 4px !important;
+    overflow-x:auto !important;overflow-y:hidden !important;white-space:nowrap !important;
+    background:rgba(7,4,2,.58);border-bottom:1px solid rgba(235,209,170,.16);
+  }
+  .main-nav a{font-size:7px !important;padding:7px 0 8px !important;text-shadow:0 1px 6px #000;}
+  .site-chrome .menu-button{
+    position:fixed !important;z-index:132 !important;
+    top:calc(10px + env(safe-area-inset-top)) !important;
+    right:max(12px,env(safe-area-inset-right)) !important;
+    width:54px !important;height:54px !important;pointer-events:auto !important;
+  }
+  .site-chrome.is-hidden .main-nav,
+  .site-chrome.is-hidden .chrome-hide{opacity:0 !important;transform:translateY(-12px) !important;pointer-events:none !important;}
+  .show-nav{display:none;right:max(14px,env(safe-area-inset-right)) !important;top:auto !important;bottom:max(22px,env(safe-area-inset-bottom)) !important;z-index:240 !important;height:42px !important;}
+  .nav-hidden .show-nav{display:block !important;}
+
+  /* Keep the original 2560x1500 artwork ratio, but fill the entire phone height.
+     The artwork becomes ~170vw wide and is naturally cropped on the right; no stretching and no black bands. */
+  .view[data-view="who"],.view[data-view="what"],.view[data-view="reach"],.view[data-view="why"],.view[data-view="sectors"],.view[data-view="work"]{background:#0b0705;}
+  .page-art{
+    position:absolute !important;left:0 !important;top:0 !important;
+    width:auto !important;height:100svh !important;max-width:none !important;
+    min-width:0 !important;min-height:0 !important;
+    object-fit:contain !important;object-position:left top !important;
+    transform:none !important;display:block !important;
+  }
+}
+@media(max-width:600px){
+  .main-nav{top:calc(68px + env(safe-area-inset-top)) !important;}
+}
+
+/* V15: purpose-built mobile inner pages. The original wide artwork stays on desktop; mobile gets a proportional cinematic crop with clean HTML typography. */
+.mobile-page{display:none}
+@media(max-width:900px){
+  .page-art{display:none !important}
+  .mobile-page{position:absolute;inset:0;display:block;overflow:hidden;background:#090604}
+  .mobile-page-bg{position:absolute;inset:0;background-size:cover;background-position:78% center;transform:scale(1.01)}
+  .mp-who .mobile-page-bg{background-image:url('images/page-2.jpg')}
+  .mp-what .mobile-page-bg{background-image:url('images/page-3.jpg')}
+  .mp-reach .mobile-page-bg{background-image:url('images/page-4.jpg')}
+  .mp-why .mobile-page-bg{background-image:url('images/page-5.jpg')}
+  .mp-sectors .mobile-page-bg{background-image:url('images/page-6.jpg')}
+  .mp-work .mobile-page-bg{background-image:url('images/page-7.jpg')}
+  .mobile-page-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(7,4,2,.96) 0%,rgba(7,4,2,.78) 42%,rgba(7,4,2,.30) 78%,rgba(7,4,2,.08) 100%),linear-gradient(0deg,rgba(7,4,2,.68),rgba(7,4,2,.08) 55%,rgba(7,4,2,.58))}
+  .mobile-page-content{position:relative;z-index:2;width:min(82vw,430px);height:100%;padding:calc(116px + env(safe-area-inset-top)) 7vw calc(28px + env(safe-area-inset-bottom));overflow:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .mobile-page-content::-webkit-scrollbar{display:none}
+  .mobile-logo{width:min(150px,42vw);height:auto;margin:0 0 clamp(34px,6vh,58px);display:block}
+  .mobile-page h2{font-family:var(--serif);font-weight:400;font-size:clamp(34px,10vw,48px);line-height:1.02;margin:0 0 24px;color:#fff}
+  .mobile-page h3{font-family:var(--sans);font-weight:500;font-size:13px;line-height:1.25;letter-spacing:.04em;margin:0 0 6px;color:#f0d6ad}
+  .mobile-page p{font-family:var(--sans);font-size:14px;line-height:1.52;color:rgba(255,249,242,.9);margin:0 0 21px;max-width:370px}
+  .mobile-page p.lead{font-size:15px;color:#f4e7d8}
+  .mobile-points h3{padding-left:13px;position:relative}
+  .mobile-points h3:before{content:'';position:absolute;left:0;top:.52em;width:5px;height:5px;background:var(--gold);border-radius:50%}
+}
+@media(max-width:600px){
+  .mobile-page-bg{background-position:76% center}
+  .mobile-page-content{width:88vw;padding-left:7vw;padding-right:7vw;padding-top:calc(112px + env(safe-area-inset-top))}
+  .mobile-logo{width:128px;margin-bottom:32px}
+  .mobile-page h2{font-size:39px;margin-bottom:22px}
+  .mobile-page h3{font-size:12px}
+  .mobile-page p{font-size:13px;line-height:1.5;margin-bottom:17px}
+  .mobile-page p.lead{font-size:14px}
+}
+@media(max-width:600px) and (max-height:740px){
+  .mobile-page-content{padding-top:calc(104px + env(safe-area-inset-top))}
+  .mobile-logo{width:115px;margin-bottom:24px}
+  .mobile-page h2{font-size:35px;margin-bottom:18px}
+  .mobile-page p{font-size:12.5px;margin-bottom:14px}
+}
+
+.mobile-logo-text{font-family:var(--serif);font-size:clamp(42px,12vw,62px);font-weight:300;letter-spacing:-.04em;line-height:.78;color:#f5eee5;margin:0 0 42px;text-shadow:0 3px 18px rgba(0,0,0,.25)}.mobile-logo-text small{display:block;font-family:var(--serif);font-size:10px;letter-spacing:.03em;margin-left:3px;margin-top:7px}
+/* V16 MOBILE: preserve the original site's typography and panel composition */
+@media(max-width:900px){
+  .mobile-page{position:absolute;inset:0;display:block;overflow:hidden;background:#120b08}
+  .mobile-page-bg{position:absolute;inset:0;background-size:cover;background-position:center center;transform:none}
+  .mobile-page-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,7,5,.86) 0%,rgba(14,10,8,.82) 45%,rgba(14,10,8,.76) 100%)}
+  .mobile-page-content{position:relative;z-index:2;width:100%;height:100%;padding:calc(92px + env(safe-area-inset-top)) 8vw calc(48px + env(safe-area-inset-bottom));overflow:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;display:flex;flex-direction:column;justify-content:center}
+  .mobile-page-content::-webkit-scrollbar{display:none}
+  .mobile-logo{display:block;width:auto;height:auto;max-width:52vw;margin:0 0 42px;font-family:var(--serif);filter:none;object-fit:contain;object-position:left top}
+  .mobile-page h2{font-family:var(--serif);font-weight:400;font-size:clamp(36px,10vw,52px);line-height:1.0;letter-spacing:0;margin:0 0 28px;color:#f5eee5}
+  .mobile-page h3{font-family:var(--serif);font-weight:400;font-size:clamp(17px,5vw,21px);line-height:1.2;letter-spacing:0;margin:0 0 7px;color:#fff}
+  .mobile-page p{font-family:var(--body);font-size:clamp(15px,4.1vw,18px);line-height:1.65;color:#eee2d5;margin:0 0 25px;max-width:100%}
+  .mobile-page p.lead{font-family:var(--body);font-size:clamp(16px,4.3vw,19px);color:#eee2d5}
+  .mobile-points h3{font-family:var(--serif);font-size:clamp(17px,5vw,21px);color:#c99b62}
+}
+
+/* V17 — clean mobile treatment: use the original page artwork itself.
+   The artwork contains the approved typography/layout, so mobile does not
+   redraw or stretch it. It is scaled by height and cropped only on the right. */
+@media (max-width:900px){
+  .mobile-page{display:none !important;}
+  .view[data-view="who"] .page-art,
+  .view[data-view="what"] .page-art,
+  .view[data-view="reach"] .page-art,
+  .view[data-view="why"] .page-art,
+  .view[data-view="sectors"] .page-art,
+  .view[data-view="work"] .page-art{
+    display:block !important;
+    position:absolute !important;
+    left:0 !important;
+    top:0 !important;
+    width:auto !important;
+    height:100svh !important;
+    min-width:0 !important;
+    min-height:0 !important;
+    max-width:none !important;
+    max-height:none !important;
+    object-fit:fill !important;
+    object-position:left top !important;
+    transform:none !important;
+  }
+
+  /* Mobile chrome: compact top controls, with the navigation on its own row
+     so it never sits on top of the artwork's Maqam logo. */
+  .site-chrome{
+    height:0 !important;
+    display:block !important;
+    padding:0 !important;
+    background:none !important;
+    border:0 !important;
+    pointer-events:none !important;
+  }
+  .site-chrome .menu-button{
+    display:flex !important;
+    position:fixed !important;
+    top:10px !important;
+    right:12px !important;
+    width:54px !important;
+    height:54px !important;
+    z-index:160 !important;
+    pointer-events:auto !important;
+    background:rgba(10,6,4,.62) !important;
+    border-color:rgba(236,211,172,.45) !important;
+  }
+  .site-chrome .chrome-hide{
+    display:block !important;
+    position:fixed !important;
+    top:10px !important;
+    right:76px !important;
+    height:54px !important;
+    padding:0 12px !important;
+    z-index:160 !important;
+    pointer-events:auto !important;
+    background:rgba(10,6,4,.62) !important;
+    font-size:8px !important;
+  }
+  .main-nav{
+    display:flex !important;
+    position:fixed !important;
+    z-index:155 !important;
+    top:64px !important;
+    left:10px !important;
+    right:10px !important;
+    height:32px !important;
+    padding:0 8px !important;
+    gap:10px !important;
+    justify-content:flex-start !important;
+    align-items:flex-start !important;
+    overflow-x:auto !important;
+    overflow-y:hidden !important;
+    white-space:nowrap !important;
+    scrollbar-width:none !important;
+    background:rgba(7,4,2,.48) !important;
+    border-bottom:1px solid rgba(235,209,170,.20) !important;
+    backdrop-filter:blur(4px);
+    pointer-events:auto !important;
+  }
+  .main-nav::-webkit-scrollbar{display:none !important;}
+  .main-nav a{
+    flex:0 0 auto !important;
+    font-size:8px !important;
+    letter-spacing:.015em !important;
+    line-height:1 !important;
+    padding:8px 0 9px !important;
+    text-shadow:0 1px 5px rgba(0,0,0,.9) !important;
+  }
+  .main-nav a::after{bottom:3px !important;}
+
+  .site-chrome.is-hidden .main-nav,
+  .site-chrome.is-hidden .chrome-hide{
+    opacity:0 !important;
+    transform:translateY(-10px) !important;
+    pointer-events:none !important;
+  }
+  .show-nav{
+    display:none !important;
+    position:fixed !important;
+    z-index:170 !important;
+    right:12px !important;
+    top:10px !important;
+    bottom:auto !important;
+    height:54px !important;
+    padding:0 12px !important;
+    font-size:8px !important;
+    background:rgba(10,6,4,.72) !important;
+    pointer-events:auto !important;
+  }
+  .nav-hidden .show-nav{display:block !important;}
+
+  /* Keep the phone viewport completely filled. */
+  .view-stack,.view{height:100svh !important;min-height:100svh !important;}
+}
+@media (max-width:600px){
+  .site-chrome .chrome-hide{right:76px !important;font-size:7px !important;padding:0 10px !important;}
+  .main-nav{top:64px !important;height:31px !important;gap:9px !important;}
+  .main-nav a{font-size:7.5px !important;}
+}
+
+</style>
+</head>
+<body>
+
+<header class="site-chrome" id="siteChrome">
+  <nav class="main-nav" aria-label="Primary navigation">
+    <a href="#home" data-target="home">Home</a>
+    <a href="#who" data-target="who">Who We Are</a>
+    <a href="#what" data-target="what">What We Do</a>
+    <a href="#reach" data-target="reach">Our Reach</a>
+    <a href="#why" data-target="why">Why Maqam</a>
+    <a href="#sectors" data-target="sectors">Sectors</a>
+    <a href="#work" data-target="work">How We Work</a>
+    <a href="#contact" data-target="contact">Contact</a>
+  </nav>
+  <div class="chrome-actions">
+    <button class="chrome-hide" id="hideNav" type="button">Hide Nav</button>
+    <button class="menu-button" id="menuOpen" type="button" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<button class="show-nav" id="showNav" type="button">Show Nav</button>
+
+<main class="view-stack" id="viewStack">
+  <section class="view active" data-view="home" aria-label="Home">
+    <div class="home-view">
+      <div class="home-panel">
+        <div class="home-inner">
+          <img class="home-logo" src="images/logo.png" alt="maqam — Markaz Al Maqam">
+          <div class="eyebrow">Markaz Al Maqam · West Asia</div>
+          <h1 class="home-title">Connecting Markets.<br><span>Creating Opportunities.</span></h1>
+          <div class="home-line"></div>
+          <p class="home-copy">A modern business platform built on trusted relationships, regional insight and international business standards.</p>
+          <div class="home-points"><span class="home-point">Business Opportunities</span><span class="home-point">Sourcing</span><span class="home-point">Partnerships</span></div>
+          <a class="home-cta" href="#who" data-target="who">Discover Maqam <span>→</span></a>
+        </div>
+      </div>
+      <div class="home-meta">Erbil · Iraq</div>
+      <div class="home-scroll">Explore <span></span></div>
+    </div>
+  </section>
+  <section class="view" data-view="who" aria-label="Who We Are"><img class="page-art" src="images/page-2.jpg" alt="Who We Are"><div class="mobile-page mp-who"><div class="mobile-page-bg"></div><div class="mobile-page-overlay"></div><div class="mobile-page-content"><div class="mobile-logo-text">maqam<small>Markaz Al Maqam</small></div><h2>Who We Are</h2><p>Markaz Al Maqam represents a modern business platform rooted in West Asia, built on trust, regional insight and international business standards.</p><p>We operate across procurement, import &amp; export, sourcing and commercial representation, providing practical, transparent and commercially focused solutions tailored to the needs of our markets.</p><p>Our strength lies in combining trusted relationships and local market knowledge with international standards, turning opportunities into sustainable business.</p></div></div></section>
+  <section class="view" data-view="what" aria-label="What We Do"><img class="page-art" src="images/page-3.jpg" alt="What We Do"><div class="mobile-page mp-what"><div class="mobile-page-bg"></div><div class="mobile-page-overlay"></div><div class="mobile-page-content"><div class="mobile-logo-text">maqam<small>Markaz Al Maqam</small></div><h2>What We Do</h2><h3>Procurement &amp; Supply</h3><p>Identifying reliable suppliers, negotiating competitive terms and building sustainable procurement channels.</p><h3>Import &amp; Export</h3><p>Coordinating cross-border trade with a focus on efficient, reliable and commercially sound execution.</p><h3>Commercial Representation</h3><p>Representing selected companies, brands and business interests in Iraq and across West Asia.</p><h3>Business Development</h3><p>Connecting opportunities, partners and markets to develop long-term commercial relationships and strategic partnerships.</p></div></div></section>
+  <section class="view" data-view="reach" aria-label="Our Reach"><img class="page-art" src="images/page-4.jpg" alt="Our Reach"><div class="mobile-page mp-reach"><div class="mobile-page-bg"></div><div class="mobile-page-overlay"></div><div class="mobile-page-content"><div class="mobile-logo-text">maqam<small>Markaz Al Maqam</small></div><h2>Our Reach</h2><p class="lead">Based in Erbil, Iraq. Connected across West Asia. Engaged with global markets.</p><p>From our base in Erbil, Markaz Al Maqam connects businesses, suppliers and commercial opportunities across Iraq, Türkiye, West Asia and selected international markets.</p><p>Our regional understanding and trusted relationships enable us to identify the right opportunities, build strong partnerships and support efficient market access.</p></div></div></section>
+  <section class="view" data-view="why" aria-label="Why Maqam"><img class="page-art" src="images/page-5.jpg" alt="Why Maqam"><div class="mobile-page mp-why"><div class="mobile-page-bg"></div><div class="mobile-page-overlay"></div><div class="mobile-page-content"><div class="mobile-logo-text">maqam<small>Markaz Al Maqam</small></div><h2>Why Maqam</h2><div class="mobile-points"><h3>Regional Understanding</h3><p>Deep understanding of local markets, business culture and commercial dynamics across Iraq and West Asia.</p><h3>Commercial Agility</h3><p>A flexible and solution-oriented approach that allows us to move quickly from opportunity to execution.</p><h3>Trusted Relationships</h3><p>Long-standing relationships built on credibility, discretion and mutual value.</p><h3>Professional Standards</h3><p>Professional processes, transparent communication and a strong commitment to quality, ethics and accountability.</p></div></div></div></section>
+  <section class="view" data-view="sectors" aria-label="Sectors"><img class="page-art" src="images/page-6.jpg" alt="Selected Sectors"><div class="mobile-page mp-sectors"><div class="mobile-page-bg"></div><div class="mobile-page-overlay"></div><div class="mobile-page-content"><div class="mobile-logo-text">maqam<small>Markaz Al Maqam</small></div><h2>Selected Sectors</h2><h3>Automotive &amp; Mobility</h3><p>Vehicle sourcing, fleet requirements and mobility-related commercial opportunities.</p><h3>Industrial &amp; Commercial Supplies</h3><p>Project-based equipment, materials and professional supply solutions.</p><h3>Energy &amp; Commodities</h3><p>Selected commercial opportunities across energy-related products and commodities.</p><h3>Professional Equipment &amp; Uniforms</h3><p>Specialized sourcing for corporate, operational and institutional requirements.</p></div></div></section>
+  <section class="view" data-view="work" aria-label="How We Work"><img class="page-art" src="images/page-7.jpg" alt="How We Work"><div class="mobile-page mp-work"><div class="mobile-page-bg"></div><div class="mobile-page-overlay"></div><div class="mobile-page-content"><div class="mobile-logo-text">maqam<small>Markaz Al Maqam</small></div><h2>How We Work</h2><h3>SOURCING</h3><p>We connect with the right suppliers and partners.</p><h3>EVALUATE</h3><p>We assess quality, terms and feasibility.</p><h3>EXECUTE</h3><p>We move efficiently from planning to delivery.</p><h3>DELIVER</h3><p>We focus on reliable execution and long-term commercial value.</p></div></div></section>
+  <section class="view" data-view="contact" aria-label="Contact">
+    <div class="contact-view">
+      <div class="contact-content">
+        <img class="contact-logo" src="images/logo-contact.png" alt="maqam — Markaz Al Maqam">
+        <div class="contact-kicker">Contact</div>
+        <h2>Let’s connect.</h2>
+        <div class="contact-rule"></div>
+        <div class="contact-company">Markaz Al Maqam</div>
+        <div class="contact-address">Empire Diamond · 100 mt Road · No. 102<br>DW-C-19-1 · Erbil, Iraq</div>
+        <div class="contact-actions"><a href="tel:+9647517406066">+964 751 740 6066</a><a href="mailto:info@maqamhq.com">info@maqamhq.com</a></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="menu-backdrop" id="menuBackdrop"></div>
+<aside class="menu-drawer" id="menuDrawer" aria-label="Main menu" aria-hidden="true">
+  <div class="menu-top"><img src="images/logo-contact.png" alt="maqam"><button class="close-button" id="menuClose" aria-label="Close menu">×</button></div>
+  <div class="menu-label">Explore Maqam</div>
+  <nav class="menu-list">
+    <a href="#home" data-target="home">Home</a>
+    <a href="#who" data-target="who">Who We Are</a>
+    <a href="#what" data-target="what">What We Do</a>
+    <a href="#reach" data-target="reach">Our Reach</a>
+    <a href="#why" data-target="why">Why Maqam</a>
+    <a href="#sectors" data-target="sectors">Sectors</a>
+    <a href="#work" data-target="work">How We Work</a>
+    <a href="#contact" data-target="contact">Contact</a>
+  </nav>
+  <div class="menu-note">Markaz Al Maqam · Erbil, Iraq<br>Use the Hide Nav control if you want a completely clean cinematic view.</div>
+</aside>
+
+<script>
+(()=>{
+ const views=[...document.querySelectorAll('.view')];
+ const links=[...document.querySelectorAll('[data-target]')];
+ const openBtn=document.getElementById('menuOpen');
+ const closeBtn=document.getElementById('menuClose');
+ const backdrop=document.getElementById('menuBackdrop');
+ const drawer=document.getElementById('menuDrawer');
+ const chrome=document.getElementById('siteChrome');
+ const hideNav=document.getElementById('hideNav');
+ const showNav=document.getElementById('showNav');
+ const body=document.body;
+ let navHidden=false;
+ function menu(open){body.classList.toggle('menu-open',open);openBtn.setAttribute('aria-expanded',String(open));drawer.setAttribute('aria-hidden',String(!open));}
+ function setNavHidden(hidden){navHidden=hidden;body.classList.toggle('nav-hidden',hidden);chrome.classList.toggle('is-hidden',hidden);if(hidden)menu(false);}
+ function show(id,push=true){
+   const target=views.find(v=>v.dataset.view===id)||views[0];
+   views.forEach(v=>v.classList.toggle('active',v===target));
+   links.forEach(a=>a.classList.toggle('active',a.dataset.target===target.dataset.view));
+   if(push&&location.hash!=='#'+target.dataset.view)history.pushState(null,'','#'+target.dataset.view);
+   menu(false);
+ }
+ window.addEventListener('resize',()=>{if(window.innerWidth>900){setNavHidden(false)}});
+ links.forEach(a=>a.addEventListener('click',e=>{e.preventDefault();show(a.dataset.target)}));
+ openBtn.addEventListener('click',()=>menu(true));
+ closeBtn.addEventListener('click',()=>menu(false));
+ backdrop.addEventListener('click',()=>menu(false));
+ hideNav.addEventListener('click',()=>setNavHidden(true));
+ showNav.addEventListener('click',()=>setNavHidden(false));
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'){menu(false);if(navHidden)setNavHidden(false)}});
+ window.addEventListener('popstate',()=>show(location.hash.slice(1)||'home',false));
+ show(location.hash.slice(1)||'home',false);
+})();
+</script>
+</body>
+</html>
